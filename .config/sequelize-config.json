@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "root",
+    "password": "option123",
+    "database": "malt_micro",
+    "host": "127.0.0.1",
+    "port": "33065",
+    "dialect": "mysql"
+  }
+}

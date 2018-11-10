@@ -1,0 +1,45 @@
+{
+  "name": "malt_mission",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "app-root-path": "2.0.1",
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "cookie-session": "^2.0.0-beta.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-session": "1.15.5",
+    "fs-extra": "^5.0.0",
+    "moment": "^2.22.2",
+    "morgan": "^1.9.0",
+    "morgan-body": "^2.4.0",
+    "mysql2": "^1.5.3",
+    "reflect-metadata": "^0.1.12",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0",
+    "sequelize-typescript": "^0.6.5",
+    "tough-cookie-filestore2": "^1.0.0",
+    "ts-node": "^5.0.0",
+    "tsconfig-paths": "^3.4.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.11.1",
+    "@types/express-session": "^1.15.10",
+    "@types/fs-extra": "^5.0.4",
+    "@types/node": "^9.4.6",
+    "typescript": "2.8.3"
+  },
+  "scripts": {
+    "test": "test",
+    "build": "tsc",
+    "db:migrate": "sequelize db:migrate",
+    "db:rollback": "sequelize db:migrate:undo",
+    "db:generate": "./node_modules/.bin/sequelize migration:create --name",
+    "dev:start": "npm install && npm run migrate && ./develop.sh"
+  },
+  "author": "",
+  "license": "ISC"
+}
