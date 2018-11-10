@@ -12,6 +12,7 @@ export interface ConfigSession {
 
 export interface ConfigType {
   env: string;
+  ipStackAPIKEY: string;
   db: ConfigDatabase;
   session: ConfigSession;
 }

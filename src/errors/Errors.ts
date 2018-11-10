@@ -1,10 +1,9 @@
-const LOGIN_ERROR_CODE = 418; // im a teapot
-
-// export class EmailExistsError extends Error {
-//   public readonly message = 'Email already in use';
-//   public readonly status = 403;
-
-//   constructor() {
-//     super();
-//   }
-// }
+export class RequestParamValidate extends Error {
+    public readonly status = 400;
+    public message;
+    
+    constructor(message) {
+        super();
+        this.message = message;
+    }
+}

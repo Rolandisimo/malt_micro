@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import appRoot from 'app-root-path';
 
 import Environment from '@env';
+import { Fee } from "@models";
 
 global.sequelize = new Sequelize({
   dialect: 'mysql',
@@ -14,7 +15,9 @@ global.sequelize = new Sequelize({
   password: Environment.db.password,
 });
 
-global.sequelize.addModels([]);
+global.sequelize.addModels([
+  Fee,
+]);
 
 export const sequelize = global.sequelize
 

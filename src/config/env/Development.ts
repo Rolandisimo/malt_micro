@@ -4,6 +4,7 @@ import { ConfigType } from '@types';
 function getConfig(): ConfigType {
   return {
     env: 'development',
+    ipStackAPIKEY: "0be6a17d7bd7269e16a0a51bc32ddfa5",
     db: {
       database: 'malt_micro',
       host: 'localhost',
