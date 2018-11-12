@@ -3,6 +3,8 @@ import { RateRequest, RestrictionRules, Rule, LogOps, Comparison } from "src/con
 import { Fee } from "@models";
 import { DEFAULT_FEE } from "@config/Consts";
 import { getDataFromIP, IPDAta } from "./IPData";
+
+// TODO: Moves variables to a Class
 /**
  * Used in restriction validation
  * Stores requested location
@@ -175,30 +177,21 @@ export interface Rate {
     reason?: string;
 }
 export async function findFee(rate: RateRequest): Promise<Rate> {
-    const fees = (await Fee.findAll())
-        .sort((a, b) => a.rate - b.rate);
-
     const firstContactTime = moment(rate.commercialRelation.firstMission);
     const lastContactTime = moment(rate.commercialRelation.lastMission);
     const periodDelta = lastContactTime.diff(firstContactTime);
+
     commercialRelationPeriod = formatDuration(moment.duration(periodDelta).asMonths().toFixed());
     missionDuration = rate.mission.duration
-
     await requestAndStorePartyData(rate);
 
-    // Iterate over fees to find matching restrictions
-    let FoundFee: Fee;
-    for (let fee of fees) {
-        const restrictions = JSON.parse(fee.restrictions) as RestrictionRules;
-
-        const isFeeMatched = traverseKeys(restrictions);
-        if (isFeeMatched) {
-            FoundFee = fee
-            break;
-        } else {
-            continue;
-        }
-    }
+    /**
+     * Iterate over fees to find matching restrictions
+     * The fee with the lowest rate takes priority
+     */
+    const FoundFee = (await Fee.findAll())
+        .sort((a, b) => a.rate - b.rate)
+        .find(fee => traverseKeys(JSON.parse(fee.restrictions)));
 
     if (FoundFee) {
         return {
