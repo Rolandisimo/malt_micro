@@ -1,14 +1,24 @@
-import { RateRequest, RestrictionRules, Rule, LogOps } from "src/controllers/types";
+import moment from "moment"
+import { RateRequest, RestrictionRules, Rule, LogOps, Comparison } from "src/controllers/types";
 import { Fee } from "@models";
 import { DEFAULT_FEE } from "@config/Consts";
 import { getDataFromIP, IPDAta } from "./IPData";
-
 /**
  * Used in restriction validation
- * Stores requested info about the party
+ * Stores requested location
+ * info about the party based
+ * on their IP addresses
  */
 let clientIPData: IPDAta;
 let freelancerIPData: IPDAta;
+/**
+ * Duration of the proposed mission
+ */
+let missionDuration: string;
+/**
+ * How long parties have been working together
+ */
+let commercialRelationPeriod: string;
 async function requestAndStorePartyData(rate: RateRequest) {
     clientIPData = await getDataFromIP(rate.client.ip);
     freelancerIPData = await getDataFromIP(rate.freelancer.ip);
@@ -44,14 +54,54 @@ function getInfoToValidate(restrictions: RestrictionRules, key: string) {
     }
 }
 
+/**
+ *
+ * @param duration string in a <NUMBER>months format
+ */
+function parseDuration(duration: string) {
+    return parseInt(duration, 10);
+}
+function compareDurations(
+    comparisonOp: Comparison,
+    sentDuration: string,
+    requiredDuration: string,
+) {
+    const sentDurationNum = parseDuration(sentDuration);
+    const requiredDurationNum = parseDuration(requiredDuration);
+
+    switch(comparisonOp) {
+        case Comparison.Eq: {
+            return sentDurationNum === requiredDurationNum;
+        }
+        case Comparison.Ge: {
+            return sentDurationNum >= requiredDurationNum;
+        }
+        case Comparison.Gt: {
+            return sentDurationNum > requiredDurationNum;
+        }
+        case Comparison.Le: {
+            return sentDurationNum <= requiredDurationNum;
+        }
+        case Comparison.Lt: {
+            return sentDurationNum < requiredDurationNum;
+        }
+        default: {
+            new Error("Incorrect comparison operator passed")
+        }
+    }
+}
+
 // Recursive parser for the restriction rules
 // They can go to an arbitrary depth
 function validateRestriction(key: string, data: RestrictionRules, logOps?: LogOps) {
     switch(key) {
-        case Rule.MissionrelationDuration:
+        case Rule.MissionrelationDuration: {
+            const comparisonOp = Object.keys(data)[0] as Comparison;
+            return compareDurations(comparisonOp, missionDuration, data[comparisonOp]);
+        }
         case Rule.СommercialrelationDuration: {
-            // TODO: Implement
-            return true;
+            const comparisonOp = Object.keys(data)[0] as Comparison;
+            return compareDurations(comparisonOp, commercialRelationPeriod, data[comparisonOp]);
         }
         case Rule.FreelancerLocation: {
             return data.country === freelancerIPData.country_code;
@@ -111,6 +161,15 @@ function traverseKeys(restrictions: RestrictionRules, logOps?: LogOps) {
     return true;
 }
 
+/**
+ * Formatting has to adjusted if
+ * any other date values
+ * like days, weeks, years are used
+ */
+function formatDuration(duration: number | string) {
+    return `${duration}months`;
+}
+
 export interface Rate {
     fee: number;
     reason?: string;
@@ -118,6 +177,12 @@ export interface Rate {
 export async function findFee(rate: RateRequest): Promise<Rate> {
     const fees = (await Fee.findAll())
         .sort((a, b) => a.rate - b.rate);
+
+    const firstContactTime = moment(rate.commercialRelation.firstMission);
+    const lastContactTime = moment(rate.commercialRelation.lastMission);
+    const periodDelta = lastContactTime.diff(firstContactTime);
+    commercialRelationPeriod = formatDuration(moment.duration(periodDelta).asMonths().toFixed());
+    missionDuration = rate.mission.duration
 
     await requestAndStorePartyData(rate);
 
