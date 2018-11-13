@@ -1,5 +1,5 @@
 export interface Party {
-    ip: '217.127.206.227';
+    ip: string;
 }
 export interface Mission {
     duration: string;
