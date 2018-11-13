@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import { validateRate } from "./validators/RateRequest";
 import { RateRequest } from "./types";
 import { findFee } from "src/services/FindFee";

@@ -1,4 +1,4 @@
-import moment from "moment"
+import moment from "moment";
 import { RateRequest, RestrictionRules, Rule, LogOps, Comparison } from "src/controllers/types";
 import { Fee } from "@models";
 import { DEFAULT_FEE } from "@config/Consts";
@@ -53,7 +53,7 @@ function getInfoToValidate(restrictions: RestrictionRules, key: string) {
         keyToPass,
         dataToPass,
         logOpsInfoToPass,
-    }
+    };
 }
 
 /**
@@ -88,7 +88,7 @@ function compareDurations(
             return sentDurationNum < requiredDurationNum;
         }
         default: {
-            new Error("Incorrect comparison operator passed")
+            new Error("Incorrect comparison operator passed");
         }
     }
 }
@@ -113,7 +113,7 @@ function validateRestriction(key: string, data: RestrictionRules, logOps?: LogOp
         }
         case LogOps.Or:
         case LogOps.And: {
-            return traverseKeys(data, logOps)
+            return traverseKeys(data, logOps);
         }
     }
 }
@@ -130,7 +130,7 @@ function traverseKeys(restrictions: RestrictionRules, logOps?: LogOps) {
             keyToPass,
             dataToPass,
             logOpsInfoToPass,
-        } = getInfoToValidate(restrictions, key)
+        } = getInfoToValidate(restrictions, key);
 
         const isMatched = validateRestriction(
             keyToPass,
@@ -182,7 +182,7 @@ export async function findFee(rate: RateRequest): Promise<Rate> {
     const periodDelta = lastContactTime.diff(firstContactTime);
 
     commercialRelationPeriod = formatDuration(moment.duration(periodDelta).asMonths().toFixed());
-    missionDuration = rate.mission.duration
+    missionDuration = rate.mission.duration;
     await requestAndStorePartyData(rate);
 
     /**
@@ -197,11 +197,10 @@ export async function findFee(rate: RateRequest): Promise<Rate> {
         return {
             fee: FoundFee.rate,
             reason: FoundFee.name
-        }
+        };
     }
 
     return {
         fee: DEFAULT_FEE,
-    }
+    };
 }
-

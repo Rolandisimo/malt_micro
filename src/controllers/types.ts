@@ -6,8 +6,8 @@ export interface Mission {
 }
 export interface CommercialRelation {
     firstMission: string;
-    lastMission: string
-};
+    lastMission: string;
+}
 export interface RateRequest {
     client: Party;
     freelancer: Party;
@@ -38,7 +38,6 @@ export enum Rule {
 }
 export type RuleKeys = { [key in Rule]?: string; };
 
-
 const enum SubRule {
     Country = "country",
 }
@@ -52,7 +51,7 @@ export type RestrictionRules = {
     [Rule.MissionrelationDuration]?: ComparisonKeys;
     [Rule.СommercialrelationDuration]?: ComparisonKeys;
     [key: string]: any;
-}
+};
 
 export type RestrictionRuleKeys = keyof RestrictionRules;
 

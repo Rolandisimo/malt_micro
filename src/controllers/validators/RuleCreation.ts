@@ -12,5 +12,4 @@ export const validateRule = (body: RuleCreation) => {
     }
 
     throw new RequestParamValidate('Added an incorrectly formatted rule');
-
 }

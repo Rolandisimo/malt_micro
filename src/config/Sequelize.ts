@@ -1,12 +1,12 @@
-import { Sequelize } from 'sequelize-typescript';
-import fs from 'fs-extra';
-import appRoot from 'app-root-path';
+import { Sequelize } from "sequelize-typescript";
+import fs from "fs-extra";
+import appRoot from "app-root-path";
 
-import Environment from '@env';
+import Environment from "@env";
 import { Fee } from "@models";
 
 global.sequelize = new Sequelize({
-  dialect: 'mysql',
+  dialect: "mysql",
   // operatorsAliases: Sequelize.Op,
   host: Environment.db.host,
   port: Environment.db.port,
@@ -19,7 +19,7 @@ global.sequelize.addModels([
   Fee,
 ]);
 
-export const sequelize = global.sequelize
+export const sequelize = global.sequelize;
 
 /**
  * TODO: DECIDE WHETHER NEEDED
@@ -30,12 +30,12 @@ export async function throwMigrationError(): Promise<void> {
   const dbMigrations = (await global.sequelize.query(
     `SELECT name as migration FROM SequelizeMeta`,
     { type: global.sequelize.QueryTypes.SELECT }
-  )).map(row => row['migration']);
+  )).map(row => row["migration"]);
 
   for (const migrationFile of migrationFiles) {
     if (dbMigrations.indexOf(`${migrationFile}`) === -1) {
       setTimeout(() => {
-        throw new Error('Run all migrations!');
+        throw new Error("Run all migrations!");
       }, 0);
     }
   }

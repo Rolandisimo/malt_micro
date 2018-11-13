@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import { validateRule } from "./validators/RuleCreation";
 import { Fee } from "src/models/Fee";
 import { RuleCreation } from "./types";
@@ -14,7 +14,7 @@ export class RulesController {
                 rate: data.rate,
                 restrictions: JSON.stringify(data.restrictions),
             });
-            
+
             return res.status(204).json();
         } catch (error) {
             return res.status(error.status || 500).json(error.message);

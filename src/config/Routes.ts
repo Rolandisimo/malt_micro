@@ -1,16 +1,15 @@
-import { Router } from 'express';
+import { Router } from "express";
 const router = Router();
 
 import {
     IndexController,
     RateController,
     RulesController,
-} from '@controllers';
+} from "@controllers";
 
+router.get("/health", IndexController.getHealth);
 
-router.get('/health', IndexController.getHealth);
-
-router.post('/rules', RulesController.postRule);
-router.post('/rate', RateController.postRate);
+router.post("/rules", RulesController.postRule);
+router.post("/rate", RateController.postRate);
 
 export default router;
