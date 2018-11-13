@@ -7,7 +7,6 @@ import { Fee } from "@models";
 
 global.sequelize = new Sequelize({
   dialect: "mysql",
-  // operatorsAliases: Sequelize.Op,
   host: Environment.db.host,
   port: Environment.db.port,
   database: Environment.db.database,

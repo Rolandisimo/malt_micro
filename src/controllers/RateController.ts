@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import { validateRate } from "./validators/RateRequest";
 import { RateRequest } from "./types";
-import { findFee } from "src/services/FindFee";
+import { FeeLocator } from "src/services/FindFee";
 
 export class RateController {
     public static async postRate(req: Request, res: Response): Promise<Response> {
@@ -10,7 +10,7 @@ export class RateController {
             const data = req.body as RateRequest;
             validateRate(data);
 
-            const rate = await findFee(data);
+            const rate = await new FeeLocator(data).findMatchingFee(data);
 
             return res.json(rate);
         } catch (error) {

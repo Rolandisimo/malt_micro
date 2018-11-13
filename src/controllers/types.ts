@@ -14,6 +14,10 @@ export interface RateRequest {
     mission: Mission;
     commercialRelation?: CommercialRelation;
 }
+export interface Rate {
+    fee: number;
+    reason?: string;
+}
 
 export enum LogOps {
     Or = "@or",
