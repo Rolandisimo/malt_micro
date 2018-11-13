@@ -1,1 +1,1 @@
-export * from "./FindFee";
+export * from "./FeeLocator";

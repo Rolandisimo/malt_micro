@@ -217,20 +217,30 @@ export class FeeLocator {
     private missionDuration: string;
     private clientIPData: IPDAta;
     private freelancerIPData: IPDAta;
+    private rate: RateRequest;
 
     public constructor(rate: RateRequest) {
-        const firstContactTime = moment(rate.commercialRelation.firstMission);
-        const lastContactTime = moment(rate.commercialRelation.lastMission);
-        const periodDelta = lastContactTime.diff(firstContactTime);
-        const duration = moment.duration(periodDelta).asMonths().toFixed();
+        this.rate = rate;
+        const {
+            commercialRelation: {
+                lastMission,
+                firstMission,
+            },
+            mission,
+        } = this.rate;
 
-        this.commercialRelationPeriod = this.formatDuration(duration);
-        this.missionDuration = rate.mission.duration;
+        const firstContactTime = moment(firstMission);
+        const lastContactTime = moment(lastMission);
+        const periodDelta = lastContactTime.diff(firstContactTime);
+        const relationshipDuration = moment.duration(periodDelta).asMonths().toFixed();
+
+        this.commercialRelationPeriod = this.formatDuration(relationshipDuration);
+        this.missionDuration = mission.duration;
     }
 
-    public async findMatchingFee(rate: RateRequest): Promise<Rate> {
-        this.clientIPData = await getDataFromIP(rate.client.ip);
-        this.freelancerIPData = await getDataFromIP(rate.freelancer.ip);
+    public async findMatchingFee(): Promise<Rate> {
+        this.clientIPData = await getDataFromIP(this.rate.client.ip);
+        this.freelancerIPData = await getDataFromIP(this.rate.freelancer.ip);
 
         /**
          * Iterate over fees to find matching restrictions
