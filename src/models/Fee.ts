@@ -1,4 +1,3 @@
-// /* tslint:disable:variable-name */
 import {
     Table,
     Column,
@@ -6,10 +5,15 @@ import {
     Default,
     UpdatedAt,
     CreatedAt,
+    PrimaryKey,
   } from "sequelize-typescript";
 
   @Table({ tableName: "fees" })
   export class Fee extends Model<Fee> {
+    @PrimaryKey
+    @Column
+    public id: number;
+
     @Column
     public name: string;
 

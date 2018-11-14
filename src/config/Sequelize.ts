@@ -20,9 +20,6 @@ global.sequelize.addModels([
 
 export const sequelize = global.sequelize;
 
-/**
- * TODO: DECIDE WHETHER NEEDED
- */
 export async function throwMigrationError(): Promise<void> {
   const migrationFiles = await fs.readdir(`${appRoot}/src/db/migrations`);
 
@@ -35,7 +32,7 @@ export async function throwMigrationError(): Promise<void> {
     if (dbMigrations.indexOf(`${migrationFile}`) === -1) {
       setTimeout(() => {
         throw new Error("Run all migrations!");
-      }, 0);
+      });
     }
   }
 }

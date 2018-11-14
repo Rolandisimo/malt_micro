@@ -1,5 +1,6 @@
 
 import { Request, Response } from "express";
+
 import { validateRate } from "./validators/RateRequest";
 import { RateRequest } from "./types";
 import { FeeLocator } from "src/services/FeeLocator";

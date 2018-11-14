@@ -17,9 +17,7 @@ const app = Express();
 app.use(bodyParser.json());
 
 app.use(morgan("combined"));
-if (Environment.env === "development") {
-  morganBody(app);
-}
+morganBody(app);
 
 // Configure Session
 app.use(cookieSession({
@@ -45,7 +43,7 @@ const corsOptions: cors.CorsOptions = {
 app.use(cors(corsOptions));
 
 // log error
-app.use((err: any, req: any, res: any, next: any) => {
+app.use((err: any, _req: any, _res: any, next: any) => {
   console.error(err.stack);
   next(err);
 });

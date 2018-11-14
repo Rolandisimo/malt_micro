@@ -36,12 +36,10 @@
       "@env": [ "./src/config/Environment" ],
       "@controllers": [ "./src/controllers" ],
       "@models": [ "./src/models" ],
-      "@middlewares": [ "./src/middlewares" ],
       "@types": [ "./src/types" ],
       "@services": [ "./src/services" ],
       "@errors": [ "./src/errors" ]
     },
-
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   }

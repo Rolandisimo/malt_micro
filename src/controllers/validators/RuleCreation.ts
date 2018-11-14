@@ -5,11 +5,18 @@ export const validateRule = (body: RuleCreation) => {
     const {
         name,
         rate,
+        restrictions,
     } = body;
 
-    if (name && rate >= 0) {
-        return;
-    }
+    try {
+        if (restrictions && !Array.isArray(restrictions)) {
+            JSON.parse(JSON.stringify(restrictions));
+        }
 
-    throw new RequestParamValidate("Added an incorrectly formatted rule");
+        if (name && rate >= 0) {
+            return;
+        }
+    } catch (error) {
+        throw new RequestParamValidate("Added an incorrectly formatted rule");
+    }
 };

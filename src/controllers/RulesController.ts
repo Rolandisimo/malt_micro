@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { validateRule } from "./validators/RuleCreation";
 import { Fee } from "src/models/Fee";
 import { RuleCreation } from "./types";

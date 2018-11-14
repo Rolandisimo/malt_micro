@@ -15,5 +15,5 @@ export interface IPDAta {
 }
 
 export async function getDataFromIP(ip: string): Promise<IPDAta> {
-    return (await axios.get(`${IPSTACK_BASE}/${ip}?access_key=${Environment.ipStackAPIKEY}`)).data;
+    return (await axios.get(`${IPSTACK_BASE}/${ip}?access_key=${Environment.ipStackApiKey}`)).data;
 }

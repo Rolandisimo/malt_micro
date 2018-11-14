@@ -5,7 +5,6 @@
  */
 
 const app = require("./../src/App");
-const debug = require("debug")("malt:server");
 const http = require("http");
 
 /**
@@ -51,7 +50,6 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
   if (error.syscall !== "listen") {
     throw error;

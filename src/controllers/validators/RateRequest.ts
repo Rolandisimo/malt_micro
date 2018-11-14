@@ -14,21 +14,26 @@ export const validateRate = (body: RateRequest) => {
 
     const clientMatch = client && client.ip.match(IPRegex);
     const freelancerMatch = freelancer && freelancer.ip.match(IPRegex);
-    const hasValidClient = clientMatch && clientMatch.length;
-    const hasValidFreelancer = freelancerMatch && freelancerMatch.length;
 
-    const hasValidMission = mission && mission.duration; // TODO: Add proper duration validation
-    const hasValidCommercialRelation = commercialRelation
-        && (commercialRelation.firstMission && commercialRelation.lastMission);
-
-    if (
-        hasValidClient
-        && hasValidFreelancer
-        && hasValidMission
-        && (!commercialRelation || hasValidCommercialRelation)
-    ) {
-        return;
+    if (!client || !clientMatch) {
+        throw new RequestParamValidate("Client is invalid. Should container client.ip");
     }
 
-    throw new RequestParamValidate("Request formatted incorrectly");
+    if (!freelancer || !freelancerMatch) {
+        throw new RequestParamValidate("Freelancer is invalid. Should contain freelancer.ip");
+    }
+
+    if (!mission || mission.duration === undefined) {
+        throw new RequestParamValidate(
+            "Mission duration formatted incorrectly."
+            + "Should contain mission.duration"
+        );
+    }
+
+    if (!commercialRelation || !(commercialRelation.firstMission && commercialRelation.lastMission)) {
+        throw new RequestParamValidate(
+            "Commercial relationships formatted incorrectly.\n"
+            + "Should contain commercialRelation.(firstMission, lastMission)"
+        );
+    }
 };
