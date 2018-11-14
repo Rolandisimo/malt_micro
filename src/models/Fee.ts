@@ -25,5 +25,4 @@ import {
 
     @UpdatedAt
     public updatedAt: Date;
-
   }

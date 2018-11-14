@@ -6,7 +6,6 @@ import cors from "cors";
 import cookieSession from "cookie-session";
 
 import Routes from "@config/Routes";
-// import "@config/sequelize";
 import Environment from "@config/Environment";
 import { throwMigrationError } from "@config/sequelize";
 
@@ -32,11 +31,14 @@ app.use(cookieSession({
 // Setup CORS
 const originsWhitelist = [
   "http://localhost:8080",
+  /**
+  * If client side is to be added
+  * it has to be whitelisted here
+  */
 ];
 const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
-    const isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
-    callback(null, isWhitelisted); // tslint:disable-line
+    callback(null, originsWhitelist.includes(origin));
   },
   credentials: true,
 };
