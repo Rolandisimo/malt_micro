@@ -21,7 +21,7 @@
     "sequelize-typescript": "^0.6.5",
     "tough-cookie-filestore2": "^1.0.0",
     "ts-node": "^5.0.0",
-    "tsconfig-paths": "^3.7.0"
+    "tsconfig-paths": "^3.10.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
